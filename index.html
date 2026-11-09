@@ -3,297 +3,1719 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JeffMercado Survey-BIM Toolbox V2.261107.1</title>
+
+  <title>Survey-BIM Toolbox V2.261109.2</title>
+
   <style>
-    :root{--bg:#eef3f8;--panel:#fff;--line:#d7e0ea;--text:#1f2937;--muted:#6b7280;--accent:#0ea5e9;--accent2:#2563eb;--green:#10b981;--error:#dc2626;--shadow:0 10px 30px rgba(15,23,42,.10)}
-    *{box-sizing:border-box}
-    body{margin:0;padding:24px;font-family:Inter,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--text)}
-    main{width:min(1200px,100%);margin:0 auto}
-    h1{margin:0 0 20px;font-size:22px}
-    h2{margin:24px 0 10px;color:#334155;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
-    .card{padding:16px;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
-    .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-    .field{display:flex;flex-direction:column;gap:6px}
-    .field+.field,.grid2+.field,.field+.grid2,.grid2+.grid2{margin-top:12px}
-    .grid2 .field{margin-top:0}
-    label{color:var(--muted);font-size:12px;font-weight:600}
-    input,select{width:100%;min-width:0;padding:10px 11px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--text);font:inherit;font-size:13px}
-    .required{color:var(--accent2)}
-    .plane-settings{display:none;margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#f8fafc}
-    .plane-title{display:block;margin-bottom:10px;color:var(--text);font-size:12px;font-weight:700}
-    .btn{padding:11px 16px;border:0;border-radius:10px;color:#fff;font-size:13px;font-weight:700;cursor:pointer}
-    .btn:disabled{opacity:.45;cursor:not-allowed}
-    .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2))}
-    .btn-green{background:linear-gradient(135deg,var(--green),#059669)}
-    .status{margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#f8fbff;font-size:13px;line-height:1.5;white-space:pre-wrap}
-    .status.error{border-color:#fecaca;color:var(--error);background:#fef2f2}
-    .table-actions{display:flex;justify-content:flex-start;margin-bottom:12px}
-    .table-wrap{max-height:600px;overflow:auto;border:1px solid var(--line);border-radius:10px}
-    table{width:100%;border-collapse:collapse;font-size:12px;white-space:nowrap}
-    th,td{padding:8px 10px;border-bottom:1px solid #e5e7eb;text-align:right}
-    th{position:sticky;top:0;z-index:1;background:#f8fafc;color:#334155}
-    th:first-child,td:first-child{text-align:left}
-    .empty{padding:16px;color:#64748b;text-align:center}
-    @media(max-width:640px){body{padding:14px}.grid2{grid-template-columns:1fr}.grid2 .field+.field{margin-top:0}}
+    :root {
+      --bg: #eef3f8;
+      --panel: #ffffff;
+      --line: #d7e0ea;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #0ea5e9;
+      --accent2: #2563eb;
+      --green: #10b981;
+      --error: #dc2626;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.10);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    main {
+      width: min(1200px, 100%);
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    h2 {
+      margin: 24px 0 10px;
+      color: #334155;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      padding: 16px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .grid2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field + .field,
+    .grid2 + .field,
+    .field + .grid2,
+    .grid2 + .grid2 {
+      margin-top: 12px;
+    }
+
+    .grid2 .field {
+      margin-top: 0;
+    }
+
+    label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-width: 0;
+      padding: 10px 11px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #ffffff;
+      color: var(--text);
+      font: inherit;
+      font-size: 13px;
+    }
+
+    .toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .toggle input {
+      width: 17px;
+      height: 17px;
+      margin: 0;
+      accent-color: #38bdf8;
+    }
+
+    .file-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .confirm-row {
+      display: none;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .confirmed {
+      font-size: 12px;
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .required {
+      color: var(--accent2);
+    }
+
+    .plane-settings {
+      display: none;
+      margin-top: 12px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #f8fafc;
+    }
+
+    .plane-title {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .btn {
+      padding: 11px 16px;
+      border: 0;
+      border-radius: 10px;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: linear-gradient(
+        135deg,
+        var(--accent),
+        var(--accent2)
+      );
+    }
+
+    .btn-green {
+      background: linear-gradient(
+        135deg,
+        var(--green),
+        #059669
+      );
+    }
+
+    .btn-small {
+      padding: 7px 11px;
+      font-size: 12px;
+    }
+
+    .status {
+      margin-top: 12px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #f8fbff;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    .status.error {
+      border-color: #fecaca;
+      color: var(--error);
+      background: #fef2f2;
+    }
+
+    .table-actions {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .table-wrap {
+      max-height: 600px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    th,
+    td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: right;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: #f8fafc;
+      color: #334155;
+    }
+
+    th:first-child,
+    td:first-child {
+      text-align: left;
+    }
+
+    .empty {
+      padding: 16px;
+      color: #64748b;
+      text-align: center;
+    }
+
+    /* Night Mode */
+
+    body.night {
+      --bg: #0b1220;
+      --panel: #151f30;
+      --line: #334155;
+      --text: #e2e8f0;
+      --muted: #aebed1;
+      --accent: #0ea5e9;
+      --accent2: #3b82f6;
+      --green: #34d399;
+      --error: #fca5a5;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    body.night h2 {
+      color: #cbd5e1;
+    }
+
+    body.night input,
+    body.night select {
+      background: #0f172a;
+      color: #e2e8f0;
+      color-scheme: dark;
+    }
+
+    body.night .plane-settings,
+    body.night th {
+      background: #1e293b;
+      color: #e2e8f0;
+    }
+
+    body.night .status {
+      background: #111d2e;
+    }
+
+    body.night .status.error {
+      background: #3b1920;
+      border-color: #7f1d1d;
+    }
+
+    body.night th,
+    body.night td {
+      border-bottom-color: #334155;
+    }
+
+    body.night .empty {
+      color: #aebed1;
+    }
+
+    body.night .required {
+      color: #7dd3fc;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 14px;
+      }
+
+      .grid2 {
+        grid-template-columns: 1fr;
+      }
+
+      .grid2 .field + .field {
+        margin-top: 0;
+      }
+    }
   </style>
 </head>
-<body>
-<main>
-  <h1>Survey-BIM Toolbox V2.261106.2</h1>
-  <h2>Inputs</h2>
-  <section class="card">
-    <div class="field">
-      <label for="analysisMode">Analysis Mode</label>
-      <select id="analysisMode"><option value="alignment" selected>Wall Tolerance</option><option value="plane">Slab Tolerance</option></select>
-    </div>
-    <div class="field"><label for="fileInput">Select Points file</label><input type="file" id="fileInput" accept=".pts"></div>
-    <div class="field"><label for="boundaryCsvInput">Select Alignment file (CSV) <span id="alignReqLbl" class="required">(Required)</span></label><input type="file" id="boundaryCsvInput" accept=".csv,.txt"></div>
-    <div class="grid2">
-      <div class="field"><label for="zMinFilter">Cloud Z-Min (Optional)</label><input type="number" id="zMinFilter" step="0.001"></div>
-      <div class="field"><label for="zMaxFilter">Cloud Z-Max (Optional)</label><input type="number" id="zMaxFilter" step="0.001"></div>
-    </div>
-    <div class="grid2">
-      <div class="field"><label for="downsampleSize">Points Spacing (m)</label><input type="number" id="downsampleSize" value="0.50" min="0.001" step="0.01"></div>
-      <div class="field"><label for="skipLines">Delimit Points (Optional)</label><input type="number" id="skipLines" value="0" step="1" min="0"></div>
-    </div>
-    <div id="planeInputs" class="plane-settings">
-      <span class="plane-title">Target Plane Settings</span>
-      <div class="grid2">
-        <div class="field"><label for="planeTargetZ">Target Elevation (Z mPD)</label><input type="number" id="planeTargetZ" step="0.001" placeholder="e.g. -7.60"></div>
-        <div class="field"><label for="planeSurfaceType">Surface Type</label><select id="planeSurfaceType"><option value="slab">Slab (Floor)</option><option value="soffit">Soffit (Ceiling)</option></select></div>
+
+<body class="night">
+  <main>
+    <header class="topbar">
+      <h1>Survey-BIM Toolbox V2.261109.2</h1>
+
+      <label class="toggle" for="nightMode">
+        <input type="checkbox" id="nightMode" checked>
+        Night Mode
+      </label>
+    </header>
+
+    <h2>Inputs</h2>
+
+    <section class="card">
+      <div class="field">
+        <label for="analysisMode">Analysis Mode</label>
+
+        <select id="analysisMode">
+          <option value="alignment" selected>Wall Tolerance</option>
+          <option value="plane">Slab Tolerance</option>
+        </select>
       </div>
-    </div>
-    <div class="field"><label for="tolLimit">Tolerance Limit (+/- mm)</label><input type="number" id="tolLimit" value="50" min="0" step="1"></div>
-  </section>
-  <h2>Actions</h2>
-  <section class="card">
-    <button id="btnLoad" class="btn btn-primary">Process Points</button>
-    <div id="statusBox" class="status" role="status" aria-live="polite">Ready. Select inputs, then click Process Points.</div>
-  </section>
-  <h2>Grid ENZ Table</h2>
-  <section class="card">
-    <div class="table-actions"><button id="btnExportVoxelCSV" class="btn btn-green" disabled>Export All</button></div>
-    <div class="table-wrap"><table id="voxelTable"><thead><tr id="voxelHeaderRow"><th>#</th><th>East / X</th><th>North / Y</th><th>Elevation / Z</th></tr></thead><tbody id="voxelTableBody"><tr><td colspan="4" class="empty">No points loaded.</td></tr></tbody></table></div>
-  </section>
-</main>
-<script id="app-script">
-"use strict";
-const el = id => document.getElementById(id);
-const analysisMode=el("analysisMode"), fileInput=el("fileInput"), boundaryCsvInput=el("boundaryCsvInput"), zMinFilter=el("zMinFilter"), zMaxFilter=el("zMaxFilter"), downsampleSize=el("downsampleSize"), skipLines=el("skipLines"), planeTargetZ=el("planeTargetZ"), planeSurfaceType=el("planeSurfaceType"), tolLimit=el("tolLimit");
-const btnLoad=el("btnLoad"), btnExportVoxelCSV=el("btnExportVoxelCSV"), statusBox=el("statusBox"), voxelHeaderRow=el("voxelHeaderRow"), voxelTableBody=el("voxelTableBody");
-const CHUNK_SIZE=8*1024*1024;
-let loadedPoints=[], toleranceParams=null, processedFileName="", isProcessing=false;
-function setStatus(message,isError=false){statusBox.textContent=message;statusBox.classList.toggle("error",isError)}
-function updateModeInputs(){const isWall=analysisMode.value==="alignment";el("planeInputs").style.display=isWall?"none":"block";el("alignReqLbl").textContent=isWall?"(Required)":"(Optional)"}
-analysisMode.addEventListener("change",updateModeInputs);updateModeInputs();
-function clearResults(){loadedPoints=[];toleranceParams=null;processedFileName="";btnExportVoxelCSV.disabled=true;voxelHeaderRow.innerHTML="<th>#</th><th>East / X</th><th>North / Y</th><th>Elevation / Z</th>";voxelTableBody.innerHTML='<tr><td colspan="4" class="empty">No points loaded.</td></tr>'}
-function setProcessing(processing){isProcessing=processing;btnLoad.disabled=processing;document.querySelectorAll("input, select").forEach(input=>{input.disabled=processing})}
-// Preserve the original PTS coordinate handling.
-function trunc3(value){const parts=String(value).split(".");return parts.length===2?parseFloat(parts[0]+"."+parts[1].substring(0,3)):parseFloat(value)}
-function parseAlignmentText(text){
-  const rows=text.split(/\r\n|\n|\r/),points=[];
-  for(const row of rows){
-    const cleaned=row.replace(/^\uFEFF/,"").replace(/["']/g,"").trim();if(!cleaned)continue;
-    let parts=cleaned.split(/[;,\t]+/).map(value=>value.trim()).filter(value=>value!=="");
-    if(parts.length<3)parts=cleaned.split(/\s+/).filter(Boolean);if(parts.length<3)continue;
-    const x=parseFloat(parts[0]),y=parseFloat(parts[1]),z=parseFloat(parts[2]);
-    if(Number.isFinite(x)&&Number.isFinite(y)&&Number.isFinite(z))points.push({x,y,z});
-  }
-  if(points.length<2)throw new Error("Alignment file must contain at least 2 valid "+`East, North, Elevation points. Found ${points.length}.`);
-  return points;
-}
-function generateAlignmentGrid(alignmentPoints,floorZ,soffitZ,spacing){
-  const grid=[];let leftoverDist=0;
-  for(let i=0;i<alignmentPoints.length-1;i++){
-    const p1=alignmentPoints[i],p2=alignmentPoints[i+1];
-    const dx=p2.x-p1.x,dy=p2.y-p1.y,segLen=Math.hypot(dx,dy);if(segLen===0)continue;
-    const ux=dx/segLen,uy=dy/segLen;let distAlong=i===0?0:spacing-leftoverDist;
-    while(distAlong<=segLen){const x=p1.x+ux*distAlong,y=p1.y+uy*distAlong;let z=floorZ;while(z<=soffitZ+0.001){grid.push({x,y,z});z+=spacing}distAlong+=spacing}
-    leftoverDist=segLen-(distAlong-spacing);
-  }
-  return grid;
-}
-function generatePlaneGrid(minX,maxX,minY,maxY,targetZ,spacing,alignmentPoints){
-  const grid=[];
-  if(alignmentPoints.length>=2){
-    const p1=alignmentPoints[0],p2=alignmentPoints[1],dx=p2.x-p1.x,dy=p2.y-p1.y,length=Math.hypot(dx,dy);
-    if(length>0.0001){
-      const ux=dx/length,uy=dy/length,vx=-uy,vy=ux;
-      const corners=[{x:minX,y:minY},{x:maxX,y:minY},{x:minX,y:maxY},{x:maxX,y:maxY}];
-      let minU=Infinity,maxU=-Infinity,minV=Infinity,maxV=-Infinity;
-      for(const corner of corners){const cx=corner.x-p1.x,cy=corner.y-p1.y,u=cx*ux+cy*uy,v=cx*vx+cy*vy;minU=Math.min(minU,u);maxU=Math.max(maxU,u);minV=Math.min(minV,v);maxV=Math.max(maxV,v)}
-      for(let u=minU;u<=maxU;u+=spacing)for(let v=minV;v<=maxV;v+=spacing)grid.push({x:p1.x+u*ux+v*vx,y:p1.y+u*uy+v*vy,z:targetZ});
+
+      <div class="field">
+        <div class="file-label-row">
+          <label for="fileInput">Select Points file</label>
+
+          <label class="toggle" for="processAll">
+            <input type="checkbox" id="processAll">
+            Process ALL Points
+          </label>
+
+          <div class="confirm-row" id="confirmAllRow">
+            <button
+              class="btn btn-primary btn-small"
+              id="btnConfirmAll"
+              type="button"
+            >
+              Confirm
+            </button>
+
+            <span
+              id="allConfirmed"
+              class="confirmed"
+              aria-live="polite"
+            ></span>
+          </div>
+        </div>
+
+        <input type="file" id="fileInput" accept=".pts">
+      </div>
+
+      <div class="field">
+        <label for="boundaryCsvInput">
+          Select Alignment file (CSV)
+          <span id="alignReqLbl" class="required">(Required)</span>
+        </label>
+
+        <input
+          type="file"
+          id="boundaryCsvInput"
+          accept=".csv,.txt"
+        >
+      </div>
+
+      <div class="grid2">
+        <div class="field">
+          <label for="zMinFilter">Cloud Z-Min (Optional)</label>
+          <input type="number" id="zMinFilter" step="0.001">
+        </div>
+
+        <div class="field">
+          <label for="zMaxFilter">Cloud Z-Max (Optional)</label>
+          <input type="number" id="zMaxFilter" step="0.001">
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="field">
+          <label for="downsampleSize">Points Spacing (m)</label>
+
+          <input
+            type="number"
+            id="downsampleSize"
+            value="0.50"
+            min="0.001"
+            step="0.01"
+          >
+        </div>
+
+        <div class="field">
+          <label for="skipLines">Delimit Points (Optional)</label>
+
+          <input
+            type="number"
+            id="skipLines"
+            value="0"
+            step="1"
+            min="0"
+          >
+        </div>
+      </div>
+
+      <div id="planeInputs" class="plane-settings">
+        <span class="plane-title">Target Plane Settings</span>
+
+        <div class="grid2">
+          <div class="field">
+            <label for="planeTargetZ">
+              Target Elevation (Z mPD)
+            </label>
+
+            <input
+              type="number"
+              id="planeTargetZ"
+              step="0.001"
+              placeholder="e.g. -7.60"
+            >
+          </div>
+
+          <div class="field">
+            <label for="planeSurfaceType">Surface Type</label>
+
+            <select id="planeSurfaceType">
+              <option value="slab">Slab (Floor)</option>
+              <option value="soffit">Soffit (Ceiling)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="tolLimit">Tolerance Limit (+/- mm)</label>
+
+        <input
+          type="number"
+          id="tolLimit"
+          value="50"
+          min="0"
+          step="1"
+        >
+      </div>
+    </section>
+
+    <h2>Actions</h2>
+
+    <section class="card">
+      <button id="btnLoad" class="btn btn-primary">
+        Process Points
+      </button>
+
+      <div
+        id="statusBox"
+        class="status"
+        role="status"
+        aria-live="polite"
+      >Ready. Select inputs, then click Process Points.</div>
+    </section>
+
+    <h2>Grid ENZ Table</h2>
+
+    <section class="card">
+      <div class="table-actions">
+        <button
+          id="btnExportVoxelCSV"
+          class="btn btn-green"
+          disabled
+        >
+          Export All
+        </button>
+      </div>
+
+      <div class="table-wrap">
+        <table id="voxelTable">
+          <thead>
+            <tr id="voxelHeaderRow">
+              <th>#</th>
+              <th>East / X</th>
+              <th>North / Y</th>
+              <th>Elevation / Z</th>
+            </tr>
+          </thead>
+
+          <tbody id="voxelTableBody">
+            <tr>
+              <td colspan="4" class="empty">No points loaded.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    "use strict";
+
+    const el = id => document.getElementById(id);
+
+    const analysisMode = el("analysisMode");
+    const fileInput = el("fileInput");
+    const boundaryCsvInput = el("boundaryCsvInput");
+    const zMinFilter = el("zMinFilter");
+    const zMaxFilter = el("zMaxFilter");
+    const downsampleSize = el("downsampleSize");
+    const skipLines = el("skipLines");
+    const planeTargetZ = el("planeTargetZ");
+    const planeSurfaceType = el("planeSurfaceType");
+    const tolLimit = el("tolLimit");
+
+    const processAll = el("processAll");
+    const btnConfirmAll = el("btnConfirmAll");
+    const nightMode = el("nightMode");
+
+    const btnLoad = el("btnLoad");
+    const btnExportVoxelCSV = el("btnExportVoxelCSV");
+    const statusBox = el("statusBox");
+    const voxelHeaderRow = el("voxelHeaderRow");
+    const voxelTableBody = el("voxelTableBody");
+
+    const CHUNK_SIZE = 8 * 1024 * 1024;
+
+    let loadedPoints = [];
+    let toleranceParams = null;
+    let processedFileName = "";
+    let isProcessing = false;
+    let allPointsConfirmed = false;
+
+    nightMode.addEventListener("change", () => {
+      document.body.classList.toggle("night", nightMode.checked);
+    });
+
+    processAll.addEventListener("change", () => {
+      allPointsConfirmed = false;
+
+      el("confirmAllRow").style.display = processAll.checked
+        ? "flex"
+        : "none";
+
+      btnConfirmAll.disabled = false;
+      el("allConfirmed").textContent = "";
+    });
+
+    btnConfirmAll.addEventListener("click", () => {
+      allPointsConfirmed = true;
+      btnConfirmAll.disabled = true;
+      el("allConfirmed").textContent = "Confirmed";
+    });
+
+    function setStatus(message, isError = false) {
+      statusBox.textContent = message;
+      statusBox.classList.toggle("error", isError);
+    }
+
+    function updateModeInputs() {
+      const isWall = analysisMode.value === "alignment";
+
+      el("planeInputs").style.display = isWall
+        ? "none"
+        : "block";
+
+      el("alignReqLbl").textContent = isWall
+        ? "(Required)"
+        : "(Optional)";
+    }
+
+    analysisMode.addEventListener("change", updateModeInputs);
+    updateModeInputs();
+
+    function clearResults() {
+      loadedPoints = [];
+      toleranceParams = null;
+      processedFileName = "";
+
+      btnExportVoxelCSV.disabled = true;
+
+      voxelHeaderRow.innerHTML = `
+        <th>#</th>
+        <th>East / X</th>
+        <th>North / Y</th>
+        <th>Elevation / Z</th>
+      `;
+
+      voxelTableBody.innerHTML = `
+        <tr>
+          <td colspan="4" class="empty">No points loaded.</td>
+        </tr>
+      `;
+    }
+
+    function setProcessing(processing) {
+      isProcessing = processing;
+      btnLoad.disabled = processing;
+
+      document.querySelectorAll("input, select").forEach(input => {
+        input.disabled = processing;
+      });
+
+      btnConfirmAll.disabled = processing || allPointsConfirmed;
+    }
+
+    function trunc3(value) {
+      const parts = String(value).split(".");
+
+      return parts.length === 2
+        ? parseFloat(parts[0] + "." + parts[1].substring(0, 3))
+        : parseFloat(value);
+    }
+
+    function parseAlignmentText(text) {
+      const rows = text.split(/\r\n|\n|\r/);
+      const points = [];
+
+      for (const row of rows) {
+        const cleaned = row
+          .replace(/^\uFEFF/, "")
+          .replace(/["']/g, "")
+          .trim();
+
+        if (!cleaned) continue;
+
+        let parts = cleaned
+          .split(/[;,\t]+/)
+          .map(value => value.trim())
+          .filter(value => value !== "");
+
+        if (parts.length < 3) {
+          parts = cleaned.split(/\s+/).filter(Boolean);
+        }
+
+        if (parts.length < 3) continue;
+
+        const x = parseFloat(parts[0]);
+        const y = parseFloat(parts[1]);
+        const z = parseFloat(parts[2]);
+
+        if (
+          Number.isFinite(x) &&
+          Number.isFinite(y) &&
+          Number.isFinite(z)
+        ) {
+          points.push({ x, y, z });
+        }
+      }
+
+      if (points.length < 2) {
+        throw new Error(
+          "Alignment file must contain at least 2 valid " +
+          `East, North, Elevation points. Found ${points.length}.`
+        );
+      }
+
+      return points;
+    }
+
+    function generateAlignmentGrid(
+      alignmentPoints,
+      floorZ,
+      soffitZ,
+      spacing
+    ) {
+      const grid = [];
+      let leftoverDist = 0;
+
+      for (let i = 0; i < alignmentPoints.length - 1; i++) {
+        const p1 = alignmentPoints[i];
+        const p2 = alignmentPoints[i + 1];
+
+        const dx = p2.x - p1.x;
+        const dy = p2.y - p1.y;
+        const segLen = Math.hypot(dx, dy);
+
+        if (segLen === 0) continue;
+
+        const ux = dx / segLen;
+        const uy = dy / segLen;
+
+        let distAlong = i === 0
+          ? 0
+          : spacing - leftoverDist;
+
+        while (distAlong <= segLen) {
+          const x = p1.x + ux * distAlong;
+          const y = p1.y + uy * distAlong;
+
+          let z = floorZ;
+
+          while (z <= soffitZ + 0.001) {
+            grid.push({ x, y, z });
+            z += spacing;
+          }
+
+          distAlong += spacing;
+        }
+
+        leftoverDist = segLen - (distAlong - spacing);
+      }
+
       return grid;
     }
-  }
-  for(let x=minX;x<=maxX;x+=spacing)for(let y=minY;y<=maxY;y+=spacing)grid.push({x,y,z:targetZ});
-  return grid;
-}
-function buildCloudKdIndex(xs,ys,zs){
-  const count=xs.length,index=new Int32Array(count);for(let i=0;i<count;i++)index[i]=i;
-  const value=(i,axis)=>axis===0?xs[i]:axis===1?ys[i]:zs[i];
-  function quickSelect(lo,hi,k,axis){while(lo<hi){const pivot=value(index[(lo+hi)>>1],axis);let i=lo,j=hi;while(i<=j){while(value(index[i],axis)<pivot)i++;while(value(index[j],axis)>pivot)j--;if(i<=j){const temp=index[i];index[i]=index[j];index[j]=temp;i++;j--}}if(k<=j)hi=j;else if(k>=i)lo=i;else return}}
-  function build(lo,hi,depth){if(lo>hi)return;const mid=(lo+hi)>>1;quickSelect(lo,hi,mid,depth%3);build(lo,mid-1,depth+1);build(mid+1,hi,depth+1)}
-  build(0,count-1,0);return index;
-}
-/*
-  Wall: original 3D search radius spacing/2 and vertical tolerance 0.005 m.
-  Slab: nearest XY point within spacing/2 and within +/-1 m vertically.
-  At slab Z splits, search the opposite branch if it can intersect the
-  permitted Z interval; never prune using the best horizontal distance.
-*/
-function nearestCloudXYZ(qx,qy,qz,xs,ys,zs,index,spacing,searchType){
-  let best=-1,bestD2=(spacing/2)*(spacing/2),bestD2D=bestD2;
-  const zTolerance=0.005,planeZTolerance=1.0;
-  function visit(lo,hi,depth){
-    if(lo>hi)return;
-    const mid=(lo+hi)>>1,i=index[mid],dx=qx-xs[i],dy=qy-ys[i],dz=qz-zs[i];
-    const d2=dx*dx+dy*dy+dz*dz,d2D=dx*dx+dy*dy;
-    if(searchType==="plane"){
-      if(Math.abs(dz)<=planeZTolerance&&d2D<bestD2D){best=i;bestD2D=d2D}
-    }else{
-      if(Math.abs(dz)<=zTolerance&&d2<bestD2){best=i;bestD2=d2}
+
+    function generatePlaneGrid(
+      minX,
+      maxX,
+      minY,
+      maxY,
+      targetZ,
+      spacing,
+      alignmentPoints
+    ) {
+      const grid = [];
+
+      if (alignmentPoints.length >= 2) {
+        const p1 = alignmentPoints[0];
+        const p2 = alignmentPoints[1];
+
+        const dx = p2.x - p1.x;
+        const dy = p2.y - p1.y;
+        const length = Math.hypot(dx, dy);
+
+        if (length > 0.0001) {
+          const ux = dx / length;
+          const uy = dy / length;
+
+          const vx = -uy;
+          const vy = ux;
+
+          const corners = [
+            { x: minX, y: minY },
+            { x: maxX, y: minY },
+            { x: minX, y: maxY },
+            { x: maxX, y: maxY }
+          ];
+
+          let minU = Infinity;
+          let maxU = -Infinity;
+          let minV = Infinity;
+          let maxV = -Infinity;
+
+          for (const corner of corners) {
+            const cx = corner.x - p1.x;
+            const cy = corner.y - p1.y;
+
+            const u = cx * ux + cy * uy;
+            const v = cx * vx + cy * vy;
+
+            minU = Math.min(minU, u);
+            maxU = Math.max(maxU, u);
+            minV = Math.min(minV, v);
+            maxV = Math.max(maxV, v);
+          }
+
+          for (let u = minU; u <= maxU; u += spacing) {
+            for (let v = minV; v <= maxV; v += spacing) {
+              grid.push({
+                x: p1.x + u * ux + v * vx,
+                y: p1.y + u * uy + v * vy,
+                z: targetZ
+              });
+            }
+          }
+
+          return grid;
+        }
+      }
+
+      for (let x = minX; x <= maxX; x += spacing) {
+        for (let y = minY; y <= maxY; y += spacing) {
+          grid.push({ x, y, z: targetZ });
+        }
+      }
+
+      return grid;
     }
-    const axis=depth%3,delta=axis===0?dx:axis===1?dy:dz;
-    const currentBestDistSq=searchType==="plane"?bestD2D:bestD2;
-    const visitFar=searchType==="plane"&&axis===2
-      ? Math.abs(delta)<=planeZTolerance
-      : delta*delta<currentBestDistSq;
-    if(delta<=0){visit(lo,mid-1,depth+1);if(visitFar)visit(mid+1,hi,depth+1)}
-    else{visit(mid+1,hi,depth+1);if(visitFar)visit(lo,mid-1,depth+1)}
-  }
-  visit(0,index.length-1,0);return best;
-}
-function processWallTolerances(points,segments,maxTolerance){
-  const assignments=new Map();
-  for(const point of points){
-    let bestDistance=Infinity,assignedSegment=-1,bestSignedDistance=0,bestT=0;
-    for(let j=0;j<segments.length;j++){
-      const a=segments[j].a,b=segments[j].b,abx=b.x-a.x,aby=b.y-a.y,apx=point.x-a.x,apy=point.y-a.y,lengthSquared=abx*abx+aby*aby;
-      if(lengthSquared<=1e-18)continue;
-      const t=Math.max(0,Math.min(1,(apx*abx+apy*aby)/lengthSquared)),qx=a.x+t*abx,qy=a.y+t*aby,distance=Math.hypot(point.x-qx,point.y-qy);
-      if(distance<bestDistance&&distance<=maxTolerance){bestDistance=distance;assignedSegment=j;bestT=t;const cross=abx*apy-aby*apx,signedDistance=cross>=0?-distance:distance;bestSignedDistance=Math.round(signedDistance*1000)/1000}
+
+    function buildCloudKdIndex(xs, ys, zs) {
+      const count = xs.length;
+      const index = new Int32Array(count);
+
+      for (let i = 0; i < count; i++) {
+        index[i] = i;
+      }
+
+      const value = (i, axis) => {
+        if (axis === 0) return xs[i];
+        if (axis === 1) return ys[i];
+        return zs[i];
+      };
+
+      function quickSelect(lo, hi, k, axis) {
+        while (lo < hi) {
+          const pivot = value(index[(lo + hi) >> 1], axis);
+          let i = lo;
+          let j = hi;
+
+          while (i <= j) {
+            while (value(index[i], axis) < pivot) i++;
+            while (value(index[j], axis) > pivot) j--;
+
+            if (i <= j) {
+              const temp = index[i];
+              index[i] = index[j];
+              index[j] = temp;
+              i++;
+              j--;
+            }
+          }
+
+          if (k <= j) {
+            hi = j;
+          } else if (k >= i) {
+            lo = i;
+          } else {
+            return;
+          }
+        }
+      }
+
+      function build(lo, hi, depth) {
+        if (lo > hi) return;
+
+        const mid = (lo + hi) >> 1;
+
+        quickSelect(lo, hi, mid, depth % 3);
+        build(lo, mid - 1, depth + 1);
+        build(mid + 1, hi, depth + 1);
+      }
+
+      build(0, count - 1, 0);
+
+      return index;
     }
-    if(assignedSegment!==-1)assignments.set(point,{dTolerance:bestSignedDistance,cPrime:bestDistance,xVal:bestT,segmentIndex:assignedSegment});
-  }
-  return assignments;
-}
-function computeToleranceRow(point){
-  if(!toleranceParams)return null;
-  if(toleranceParams.type==="elevation"){
-    const deviation=toleranceParams.surfaceType==="soffit"?toleranceParams.Z-point.z:point.z-toleranceParams.Z;
-    return {dTolerance:deviation,cPrime:0,xVal:0};
-  }
-  if(toleranceParams.type==="multiSegment")return toleranceParams.assignments.get(point)||{dTolerance:null,cPrime:null,xVal:null,segmentIndex:null};
-  return null;
-}
-function getSegmentAngle(segmentIndex){
-  if(!toleranceParams||toleranceParams.type!=="multiSegment"||segmentIndex==null)return null;
-  const segment=toleranceParams.segments[segmentIndex];if(!segment)return null;
-  const dx=segment.b.x-segment.a.x,dy=segment.b.y-segment.a.y;return -Math.atan2(dy,dx)*180/Math.PI;
-}
-// Wall and slab share the same 10-column report layout.
-function updateVoxelTable(){
-  const isWall=toleranceParams&&toleranceParams.type==="multiSegment";
-  if(toleranceParams)voxelHeaderRow.innerHTML=`<th>#</th><th>East / X</th><th>North / Y</th><th>Elevation / Z</th><th>Segment</th><th>Signed Dev.</th><th>Distance</th><th>Station t</th><th>Tol Text (mm)</th><th>Angle to East (°)</th>`;
-  voxelTableBody.innerHTML="";
-  if(!loadedPoints.length){const columnCount=toleranceParams?10:4;voxelTableBody.innerHTML=`<tr><td colspan="${columnCount}" class="empty">No points available.</td></tr>`;btnExportVoxelCSV.disabled=true;return}
-  const fragment=document.createDocumentFragment();
-  loadedPoints.forEach((point,index)=>{
-    const row=document.createElement("tr"),tolerance=computeToleranceRow(point)||{};
-    const deviation=Number.isFinite(tolerance.dTolerance)?tolerance.dTolerance.toFixed(3):"";
-    const mm=Number.isFinite(tolerance.dTolerance)?Math.round(tolerance.dTolerance*1000):"";
-    const distance=isWall&&Number.isFinite(tolerance.cPrime)?tolerance.cPrime.toFixed(3):"";
-    const station=isWall&&Number.isFinite(tolerance.xVal)?tolerance.xVal.toFixed(3):"";
-    const segment=isWall&&tolerance.segmentIndex!=null?tolerance.segmentIndex+1:"";
-    const angle=isWall?getSegmentAngle(tolerance.segmentIndex):null;
-    row.innerHTML=`<td>${index+1}</td><td>${point.x.toFixed(3)}</td><td>${point.y.toFixed(3)}</td><td>${point.z.toFixed(3)}</td><td>${segment}</td><td>${deviation}</td><td>${distance}</td><td>${station}</td><td>${mm}</td><td>${angle==null?"":angle.toFixed(3)}</td>`;
-    fragment.appendChild(row);
-  });
-  voxelTableBody.appendChild(fragment);btnExportVoxelCSV.disabled=false;
-}
-function exportVoxelCSV(){
-  if(!loadedPoints.length||!toleranceParams)return;
-  const isWall=toleranceParams.type==="multiSegment";
-  let output="Index,East_X,North_Y,Elevation_Z,Segment,Signed_Deviation,Distance,Station_t,Tol_Text_mm,Angle_to_East_deg\n";
-  loadedPoints.forEach((point,index)=>{
-    const tolerance=computeToleranceRow(point)||{};
-    const mm=Number.isFinite(tolerance.dTolerance)?Math.round(tolerance.dTolerance*1000):"";
-    const angle=isWall?getSegmentAngle(tolerance.segmentIndex):null;
-    output += [index+1,point.x,point.y,point.z,isWall&&tolerance.segmentIndex!=null?tolerance.segmentIndex+1:"",tolerance.dTolerance??"",isWall?(tolerance.cPrime??""):"",isWall?(tolerance.xVal??""):"",mm,angle==null?"":angle.toFixed(3)].join(",")+"\n";
-  });
-  const baseName=processedFileName?processedFileName.replace(/\.[^.]+$/,""):"PTS",downloadName=`${baseName}_GridPoints.csv`;
-  const blob=new Blob([output],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),link=document.createElement("a");
-  link.href=url;link.download=downloadName;document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
-  setStatus(`CSV exported: ${downloadName}\n`+`Points exported: ${loadedPoints.length.toLocaleString()}`);
-}
-btnExportVoxelCSV.addEventListener("click",exportVoxelCSV);
-async function parsePtsFile(file,options){
-  const cloudX=[],cloudY=[],cloudZ=[];
-  let headerPointCount=null,rawPointIndex=0,keptByZ=0,rawMinZ=Infinity,rawMaxZ=-Infinity,minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
-  function processLine(line){
-    const trimmed=(line||"").trim();if(!trimmed)return;const parts=trimmed.split(/[\s\t]+/);
-    if(headerPointCount===null&&parts.length===1&&!isNaN(parts[0])){headerPointCount=parseInt(parts[0],10);return}
-    if(parts.length<3||isNaN(parts[0])||isNaN(parts[1])||isNaN(parts[2]))return;
-    rawPointIndex++;if(options.skip>0&&rawPointIndex%(options.skip+1)!==0)return;
-    const x=trunc3(parts[0]),y=trunc3(parts[1]),z=trunc3(parts[2]);
-    if(!Number.isFinite(x)||!Number.isFinite(y)||!Number.isFinite(z))return;
-    rawMinZ=Math.min(rawMinZ,z);rawMaxZ=Math.max(rawMaxZ,z);if(z<options.zMin||z>options.zMax)return;
-    minX=Math.min(minX,x);maxX=Math.max(maxX,x);minY=Math.min(minY,y);maxY=Math.max(maxY,y);keptByZ++;cloudX.push(x);cloudY.push(y);cloudZ.push(z);
-  }
-  const decoder=new TextDecoder();let leftover="";
-  for(let offset=0;offset<file.size;offset+=CHUNK_SIZE){
-    const slice=file.slice(offset,offset+CHUNK_SIZE),buffer=await slice.arrayBuffer(),isLast=offset+CHUNK_SIZE>=file.size;
-    const text=leftover+decoder.decode(buffer,{stream:!isLast}),lines=text.replace(/\r/g,"").split("\n");leftover=lines.pop()||"";
-    for(const line of lines)processLine(line);
-    const progress=Math.min(100,Math.floor((offset+slice.size)/file.size*100));
-    setStatus("Loading / parsing...\n"+`Raw points scanned: ${rawPointIndex.toLocaleString()}\n`+`File progress: ${progress}%`);
-    await new Promise(resolve=>setTimeout(resolve,0));
-  }
-  if(leftover.trim())processLine(leftover);
-  if(!cloudX.length)throw new Error("No valid PTS points remain after the input filters.");
-  return {xs:Float64Array.from(cloudX),ys:Float64Array.from(cloudY),zs:Float64Array.from(cloudZ),rawPointIndex,keptByZ,rawMinZ,rawMaxZ,minX,maxX,minY,maxY};
-}
-function validateInputs(){
-  const file=fileInput.files[0],alignmentFile=boundaryCsvInput.files[0]||null,mode=analysisMode.value;
-  if(!file)throw new Error("No points file selected.");
-  if(mode==="alignment"&&!alignmentFile)throw new Error("An alignment file is required for Wall Tolerance.");
-  const spacing=parseFloat(downsampleSize.value);if(!Number.isFinite(spacing)||spacing<=0)throw new Error("Points Spacing must be greater than zero.");
-  const skip=Number(skipLines.value);if(!Number.isInteger(skip)||skip<0)throw new Error("Delimit Points must be a non-negative integer.");
-  const zMinValue=zMinFilter.value.trim(),zMaxValue=zMaxFilter.value.trim(),zMin=zMinValue===""?-Infinity:Number(zMinValue),zMax=zMaxValue===""?Infinity:Number(zMaxValue);
-  if((zMinValue!==""&&!Number.isFinite(zMin))||(zMaxValue!==""&&!Number.isFinite(zMax)))throw new Error("Cloud Z limits must be valid numbers.");
-  if(zMin>zMax)throw new Error("Cloud Z-Min cannot exceed Cloud Z-Max.");
-  const targetZ=parseFloat(planeTargetZ.value);if(mode==="plane"&&!Number.isFinite(targetZ))throw new Error("Target Elevation is required for Slab Tolerance.");
-  const limit=Number(tolLimit.value);if(tolLimit.value.trim()===""||!Number.isFinite(limit)||limit<0)throw new Error("Tolerance Limit must be a non-negative number.");
-  return {file,alignmentFile,mode,spacing,skip,zMin,zMax,targetZ,surfaceType:planeSurfaceType.value,toleranceLimit:limit};
-}
-btnLoad.addEventListener("click",async()=>{
-  if(isProcessing)return;let options;
-  try{options=validateInputs()}catch(error){setStatus(`ERROR: ${error.message}`,true);return}
-  clearResults();setProcessing(true);
-  try{
-    let alignmentPoints=[];
-    if(options.alignmentFile){setStatus("Loading alignment file...");alignmentPoints=parseAlignmentText(await options.alignmentFile.text())}
-    setStatus(`Loading / parsing...\n${options.file.name}`);const cloud=await parsePtsFile(options.file,options);
-    const floorZ=Number.isFinite(options.zMin)?options.zMin:cloud.rawMinZ,soffitZ=Number.isFinite(options.zMax)?options.zMax:cloud.rawMaxZ;
-    const grid=options.mode==="alignment"?generateAlignmentGrid(alignmentPoints,floorZ,soffitZ,options.spacing):generatePlaneGrid(cloud.minX,cloud.maxX,cloud.minY,cloud.maxY,options.targetZ,options.spacing,alignmentPoints);
-    if(!grid.length)throw new Error("No grid positions could be generated from the inputs.");
-    setStatus(`Building KD-tree for ${cloud.xs.length.toLocaleString()} `+"PTS points...");await new Promise(resolve=>setTimeout(resolve,0));
-    const cloudIndex=buildCloudKdIndex(cloud.xs,cloud.ys,cloud.zs);setStatus(`Matching ${grid.length.toLocaleString()} grid positions...`);await new Promise(resolve=>setTimeout(resolve,0));
-    const points=[];
-    for(const reference of grid){const i=nearestCloudXYZ(reference.x,reference.y,reference.z,cloud.xs,cloud.ys,cloud.zs,cloudIndex,options.spacing,options.mode);if(i>=0)points.push({x:cloud.xs[i],y:cloud.ys[i],z:cloud.zs[i]})}
-    if(!points.length)throw new Error("No valid points survived grid matching.");
-    loadedPoints=points;processedFileName=options.file.name;
-    if(options.mode==="alignment"){
-      const segments=[];for(let i=0;i<alignmentPoints.length-1;i++)segments.push({a:alignmentPoints[i],b:alignmentPoints[i+1]});
-      toleranceParams={type:"multiSegment",segments,assignments:processWallTolerances(loadedPoints,segments,1.0)};
-    }else toleranceParams={type:"elevation",Z:options.targetZ,surfaceType:options.surfaceType};
-    updateVoxelTable();
-    let withinLimit=0,outsideLimit=0,unassigned=0;
-    for(const point of loadedPoints){const tolerance=computeToleranceRow(point);if(!tolerance||!Number.isFinite(tolerance.dTolerance)){unassigned++;continue}if(Math.abs(tolerance.dTolerance*1000)<=options.toleranceLimit)withinLimit++;else outsideLimit++}
-    setStatus("PROCESS COMPLETE\n"+`Raw valid points scanned: ${cloud.rawPointIndex.toLocaleString()}\n`+`Points retained after Z filter: ${cloud.keptByZ.toLocaleString()}\n`+`Grid points kept: ${loadedPoints.length.toLocaleString()}\n`+`Within ±${options.toleranceLimit} mm: ${withinLimit.toLocaleString()}\n`+`Outside ±${options.toleranceLimit} mm: ${outsideLimit.toLocaleString()}\n`+`Without assigned tolerance: ${unassigned.toLocaleString()}`);
-  }catch(error){clearResults();setStatus(`ERROR: ${error.message||String(error)}`,true)}finally{setProcessing(false)}
-});
-</script>
+
+    /*
+      Wall:
+      - Search radius: spacing / 2 in 3D.
+      - Maximum vertical difference: 0.005 m.
+
+      Slab:
+      - Search radius: spacing / 2 in XY.
+      - Maximum vertical difference: 1.0 m.
+      - The nearest eligible point is selected in XY.
+    */
+    function nearestCloudXYZ(
+      qx,
+      qy,
+      qz,
+      xs,
+      ys,
+      zs,
+      index,
+      spacing,
+      searchType
+    ) {
+      let best = -1;
+      let bestD2 = (spacing / 2) * (spacing / 2);
+      let bestD2D = bestD2;
+
+      const zTolerance = 0.005;
+      const planeZTolerance = 1.0;
+
+      function visit(lo, hi, depth) {
+        if (lo > hi) return;
+
+        const mid = (lo + hi) >> 1;
+        const i = index[mid];
+
+        const dx = qx - xs[i];
+        const dy = qy - ys[i];
+        const dz = qz - zs[i];
+
+        const d2 = dx * dx + dy * dy + dz * dz;
+        const d2D = dx * dx + dy * dy;
+
+        if (searchType === "plane") {
+          if (
+            Math.abs(dz) <= planeZTolerance &&
+            d2D < bestD2D
+          ) {
+            best = i;
+            bestD2D = d2D;
+          }
+        } else {
+          if (
+            Math.abs(dz) <= zTolerance &&
+            d2 < bestD2
+          ) {
+            best = i;
+            bestD2 = d2;
+          }
+        }
+
+        const axis = depth % 3;
+        const delta = axis === 0 ? dx : axis === 1 ? dy : dz;
+
+        const currentBestDistSq = searchType === "plane"
+          ? bestD2D
+          : bestD2;
+
+        const visitFar =
+          searchType === "plane" && axis === 2
+            ? Math.abs(delta) <= planeZTolerance
+            : delta * delta < currentBestDistSq;
+
+        if (delta <= 0) {
+          visit(lo, mid - 1, depth + 1);
+
+          if (visitFar) {
+            visit(mid + 1, hi, depth + 1);
+          }
+        } else {
+          visit(mid + 1, hi, depth + 1);
+
+          if (visitFar) {
+            visit(lo, mid - 1, depth + 1);
+          }
+        }
+      }
+
+      visit(0, index.length - 1, 0);
+      return best;
+    }
+
+    function processWallTolerances(points, segments, maxTolerance) {
+      const assignments = new Map();
+
+      for (const point of points) {
+        let bestDistance = Infinity;
+        let assignedSegment = -1;
+        let bestSignedDistance = 0;
+        let bestT = 0;
+
+        for (let j = 0; j < segments.length; j++) {
+          const a = segments[j].a;
+          const b = segments[j].b;
+
+          const abx = b.x - a.x;
+          const aby = b.y - a.y;
+
+          const apx = point.x - a.x;
+          const apy = point.y - a.y;
+
+          const lengthSquared = abx * abx + aby * aby;
+
+          if (lengthSquared <= 1e-18) continue;
+
+          const t = Math.max(
+            0,
+            Math.min(
+              1,
+              (apx * abx + apy * aby) / lengthSquared
+            )
+          );
+
+          const qx = a.x + t * abx;
+          const qy = a.y + t * aby;
+
+          const distance = Math.hypot(
+            point.x - qx,
+            point.y - qy
+          );
+
+          if (
+            distance < bestDistance &&
+            distance <= maxTolerance
+          ) {
+            bestDistance = distance;
+            assignedSegment = j;
+            bestT = t;
+
+            const cross = abx * apy - aby * apx;
+
+            const signedDistance = cross >= 0
+              ? -distance
+              : distance;
+
+            bestSignedDistance =
+              Math.round(signedDistance * 1000) / 1000;
+          }
+        }
+
+        if (assignedSegment !== -1) {
+          assignments.set(point, {
+            dTolerance: bestSignedDistance,
+            cPrime: bestDistance,
+            xVal: bestT,
+            segmentIndex: assignedSegment
+          });
+        }
+      }
+
+      return assignments;
+    }
+
+    function computeToleranceRow(point) {
+      if (!toleranceParams) return null;
+
+      if (toleranceParams.type === "elevation") {
+        const deviation = toleranceParams.surfaceType === "soffit"
+          ? toleranceParams.Z - point.z
+          : point.z - toleranceParams.Z;
+
+        return {
+          dTolerance: deviation,
+          cPrime: 0,
+          xVal: 0
+        };
+      }
+
+      if (toleranceParams.type === "multiSegment") {
+        return toleranceParams.assignments.get(point) || {
+          dTolerance: null,
+          cPrime: null,
+          xVal: null,
+          segmentIndex: null
+        };
+      }
+
+      return null;
+    }
+
+    function getSegmentAngle(segmentIndex) {
+      if (
+        !toleranceParams ||
+        toleranceParams.type !== "multiSegment" ||
+        segmentIndex == null
+      ) {
+        return null;
+      }
+
+      const segment = toleranceParams.segments[segmentIndex];
+      if (!segment) return null;
+
+      const dx = segment.b.x - segment.a.x;
+      const dy = segment.b.y - segment.a.y;
+
+      return -Math.atan2(dy, dx) * 180 / Math.PI;
+    }
+
+    function updateVoxelTable() {
+      const isWall =
+        toleranceParams &&
+        toleranceParams.type === "multiSegment";
+
+      if (toleranceParams) {
+        voxelHeaderRow.innerHTML = `
+          <th>#</th>
+          <th>East / X</th>
+          <th>North / Y</th>
+          <th>Elevation / Z</th>
+          <th>Segment</th>
+          <th>Signed Dev.</th>
+          <th>Distance</th>
+          <th>Station t</th>
+          <th>Tol Text (mm)</th>
+          <th>Angle to East (°)</th>
+        `;
+      }
+
+      voxelTableBody.innerHTML = "";
+
+      if (!loadedPoints.length) {
+        const columnCount = toleranceParams ? 10 : 4;
+
+        voxelTableBody.innerHTML = `
+          <tr>
+            <td colspan="${columnCount}" class="empty">
+              No points available.
+            </td>
+          </tr>
+        `;
+
+        btnExportVoxelCSV.disabled = true;
+        return;
+      }
+
+      const fragment = document.createDocumentFragment();
+
+      loadedPoints.forEach((point, index) => {
+        const row = document.createElement("tr");
+        const tolerance = computeToleranceRow(point) || {};
+
+        const deviation = Number.isFinite(tolerance.dTolerance)
+          ? tolerance.dTolerance.toFixed(3)
+          : "";
+
+        const mm = Number.isFinite(tolerance.dTolerance)
+          ? Math.round(tolerance.dTolerance * 1000)
+          : "";
+
+        const distance =
+          isWall && Number.isFinite(tolerance.cPrime)
+            ? tolerance.cPrime.toFixed(3)
+            : "";
+
+        const station =
+          isWall && Number.isFinite(tolerance.xVal)
+            ? tolerance.xVal.toFixed(3)
+            : "";
+
+        const segment =
+          isWall && tolerance.segmentIndex != null
+            ? tolerance.segmentIndex + 1
+            : "";
+
+        const angle = isWall
+          ? getSegmentAngle(tolerance.segmentIndex)
+          : null;
+
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${point.x.toFixed(3)}</td>
+          <td>${point.y.toFixed(3)}</td>
+          <td>${point.z.toFixed(3)}</td>
+          <td>${segment}</td>
+          <td>${deviation}</td>
+          <td>${distance}</td>
+          <td>${station}</td>
+          <td>${mm}</td>
+          <td>${angle == null ? "" : angle.toFixed(3)}</td>
+        `;
+
+        fragment.appendChild(row);
+      });
+
+      voxelTableBody.appendChild(fragment);
+      btnExportVoxelCSV.disabled = false;
+    }
+
+    function exportVoxelCSV() {
+      if (!loadedPoints.length || !toleranceParams) return;
+
+      const isWall = toleranceParams.type === "multiSegment";
+
+      let output =
+        "Index,East_X,North_Y,Elevation_Z,Segment," +
+        "Signed_Deviation,Distance,Station_t,Tol_Text_mm," +
+        "Angle_to_East_deg\n";
+
+      loadedPoints.forEach((point, index) => {
+        const tolerance = computeToleranceRow(point) || {};
+
+        const mm = Number.isFinite(tolerance.dTolerance)
+          ? Math.round(tolerance.dTolerance * 1000)
+          : "";
+
+        const angle = isWall
+          ? getSegmentAngle(tolerance.segmentIndex)
+          : null;
+
+        output += [
+          index + 1,
+          point.x,
+          point.y,
+          point.z,
+
+          isWall && tolerance.segmentIndex != null
+            ? tolerance.segmentIndex + 1
+            : "",
+
+          tolerance.dTolerance ?? "",
+
+          isWall
+            ? (tolerance.cPrime ?? "")
+            : "",
+
+          isWall
+            ? (tolerance.xVal ?? "")
+            : "",
+
+          mm,
+
+          angle == null
+            ? ""
+            : angle.toFixed(3)
+        ].join(",") + "\n";
+      });
+
+      const baseName = processedFileName
+        ? processedFileName.replace(/\.[^.]+$/, "")
+        : "PTS";
+
+      const downloadName = `${baseName}_GridPoints.csv`;
+
+      const blob = new Blob(
+        [output],
+        { type: "text/csv;charset=utf-8" }
+      );
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = downloadName;
+
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+      setStatus(
+        `CSV exported: ${downloadName}\n` +
+        `Points exported: ${loadedPoints.length.toLocaleString()}`
+      );
+    }
+
+    btnExportVoxelCSV.addEventListener("click", exportVoxelCSV);
+
+    async function parsePtsFile(file, options) {
+      const cloudX = [];
+      const cloudY = [];
+      const cloudZ = [];
+
+      let headerPointCount = null;
+      let rawPointIndex = 0;
+      let keptByZ = 0;
+
+      let rawMinZ = Infinity;
+      let rawMaxZ = -Infinity;
+
+      let minX = Infinity;
+      let maxX = -Infinity;
+      let minY = Infinity;
+      let maxY = -Infinity;
+
+      function processLine(line) {
+        const trimmed = (line || "").trim();
+        if (!trimmed) return;
+
+        const parts = trimmed.split(/[\s\t]+/);
+
+        if (
+          headerPointCount === null &&
+          parts.length === 1 &&
+          !isNaN(parts[0])
+        ) {
+          headerPointCount = parseInt(parts[0], 10);
+          return;
+        }
+
+        if (
+          parts.length < 3 ||
+          isNaN(parts[0]) ||
+          isNaN(parts[1]) ||
+          isNaN(parts[2])
+        ) {
+          return;
+        }
+
+        rawPointIndex++;
+
+        if (
+          options.skip > 0 &&
+          rawPointIndex % (options.skip + 1) !== 0
+        ) {
+          return;
+        }
+
+        const x = trunc3(parts[0]);
+        const y = trunc3(parts[1]);
+        const z = trunc3(parts[2]);
+
+        if (
+          !Number.isFinite(x) ||
+          !Number.isFinite(y) ||
+          !Number.isFinite(z)
+        ) {
+          return;
+        }
+
+        rawMinZ = Math.min(rawMinZ, z);
+        rawMaxZ = Math.max(rawMaxZ, z);
+
+        /*
+          Process ALL Points bypasses the Z filter.
+          Delimit Points remains active above.
+        */
+        if (
+          !options.processAll &&
+          (z < options.zMin || z > options.zMax)
+        ) {
+          return;
+        }
+
+        minX = Math.min(minX, x);
+        maxX = Math.max(maxX, x);
+        minY = Math.min(minY, y);
+        maxY = Math.max(maxY, y);
+
+        keptByZ++;
+
+        cloudX.push(x);
+        cloudY.push(y);
+        cloudZ.push(z);
+      }
+
+      const decoder = new TextDecoder();
+      let leftover = "";
+
+      for (
+        let offset = 0;
+        offset < file.size;
+        offset += CHUNK_SIZE
+      ) {
+        const slice = file.slice(offset, offset + CHUNK_SIZE);
+        const buffer = await slice.arrayBuffer();
+
+        const isLast = offset + CHUNK_SIZE >= file.size;
+
+        const text = leftover + decoder.decode(
+          buffer,
+          { stream: !isLast }
+        );
+
+        const lines = text.replace(/\r/g, "").split("\n");
+        leftover = lines.pop() || "";
+
+        for (const line of lines) {
+          processLine(line);
+        }
+
+        const progress = Math.min(
+          100,
+          Math.floor((offset + slice.size) / file.size * 100)
+        );
+
+        setStatus(
+          "Loading / parsing...\n" +
+          `Raw points scanned: ${rawPointIndex.toLocaleString()}\n` +
+          `File progress: ${progress}%`
+        );
+
+        await new Promise(resolve => setTimeout(resolve, 0));
+      }
+
+      if (leftover.trim()) {
+        processLine(leftover);
+      }
+
+      if (!cloudX.length) {
+        throw new Error(
+          "No valid PTS points remain after the input filters."
+        );
+      }
+
+      return {
+        xs: Float64Array.from(cloudX),
+        ys: Float64Array.from(cloudY),
+        zs: Float64Array.from(cloudZ),
+        rawPointIndex,
+        keptByZ,
+        rawMinZ,
+        rawMaxZ,
+        minX,
+        maxX,
+        minY,
+        maxY
+      };
+    }
+
+    function validateInputs() {
+      const file = fileInput.files[0];
+      const alignmentFile = boundaryCsvInput.files[0] || null;
+      const mode = analysisMode.value;
+
+      if (!file) {
+        throw new Error("No points file selected.");
+      }
+
+      if (mode === "alignment" && !alignmentFile) {
+        throw new Error(
+          "An alignment file is required for Wall Tolerance."
+        );
+      }
+
+      const spacing = parseFloat(downsampleSize.value);
+
+      if (!Number.isFinite(spacing) || spacing <= 0) {
+        throw new Error(
+          "Points Spacing must be greater than zero."
+        );
+      }
+
+      const skip = Number(skipLines.value);
+
+      if (!Number.isInteger(skip) || skip < 0) {
+        throw new Error(
+          "Delimit Points must be a non-negative integer."
+        );
+      }
+
+      const zMinValue = zMinFilter.value.trim();
+      const zMaxValue = zMaxFilter.value.trim();
+
+      const zMin = zMinValue === ""
+        ? -Infinity
+        : Number(zMinValue);
+
+      const zMax = zMaxValue === ""
+        ? Infinity
+        : Number(zMaxValue);
+
+      if (
+        (zMinValue !== "" && !Number.isFinite(zMin)) ||
+        (zMaxValue !== "" && !Number.isFinite(zMax))
+      ) {
+        throw new Error("Cloud Z limits must be valid numbers.");
+      }
+
+      if (!processAll.checked && zMin > zMax) {
+        throw new Error(
+          "Cloud Z-Min cannot exceed Cloud Z-Max."
+        );
+      }
+
+      if (processAll.checked && !allPointsConfirmed) {
+        throw new Error(
+          "Please confirm Process ALL Points before processing."
+        );
+      }
+
+      const targetZ = parseFloat(planeTargetZ.value);
+
+      if (mode === "plane" && !Number.isFinite(targetZ)) {
+        throw new Error(
+          "Target Elevation is required for Slab Tolerance."
+        );
+      }
+
+      const limit = Number(tolLimit.value);
+
+      if (
+        tolLimit.value.trim() === "" ||
+        !Number.isFinite(limit) ||
+        limit < 0
+      ) {
+        throw new Error(
+          "Tolerance Limit must be a non-negative number."
+        );
+      }
+
+      return {
+        file,
+        alignmentFile,
+        mode,
+        spacing,
+        skip,
+        zMin,
+        zMax,
+        targetZ,
+        surfaceType: planeSurfaceType.value,
+        toleranceLimit: limit,
+        processAll: processAll.checked
+      };
+    }
+
+    btnLoad.addEventListener("click", async () => {
+      if (isProcessing) return;
+
+      let options;
+
+      try {
+        options = validateInputs();
+      } catch (error) {
+        setStatus(`ERROR: ${error.message}`, true);
+        return;
+      }
+
+      clearResults();
+      setProcessing(true);
+
+      try {
+        let alignmentPoints = [];
+
+        if (options.alignmentFile) {
+          setStatus("Loading alignment file...");
+
+          const alignmentText = await options.alignmentFile.text();
+          alignmentPoints = parseAlignmentText(alignmentText);
+        }
+
+        setStatus(`Loading / parsing...\n${options.file.name}`);
+
+        const cloud = await parsePtsFile(options.file, options);
+
+        const floorZ = Number.isFinite(options.zMin)
+          ? options.zMin
+          : cloud.rawMinZ;
+
+        const soffitZ = Number.isFinite(options.zMax)
+          ? options.zMax
+          : cloud.rawMaxZ;
+
+        const points = [];
+
+        if (options.processAll) {
+          /*
+            Keep every valid point remaining after
+            Delimit Points.
+          */
+          for (let i = 0; i < cloud.xs.length; i++) {
+            points.push({
+              x: cloud.xs[i],
+              y: cloud.ys[i],
+              z: cloud.zs[i]
+            });
+          }
+        } else {
+          let grid;
+
+          if (options.mode === "alignment") {
+            grid = generateAlignmentGrid(
+              alignmentPoints,
+              floorZ,
+              soffitZ,
+              options.spacing
+            );
+          } else {
+            grid = generatePlaneGrid(
+              cloud.minX,
+              cloud.maxX,
+              cloud.minY,
+              cloud.maxY,
+              options.targetZ,
+              options.spacing,
+              alignmentPoints
+            );
+          }
+
+          if (!grid.length) {
+            throw new Error(
+              "No grid positions could be generated from the inputs."
+            );
+          }
+
+          setStatus(
+            `Building KD-tree for ${
+              cloud.xs.length.toLocaleString()
+            } PTS points...`
+          );
+
+          await new Promise(resolve => setTimeout(resolve, 0));
+
+          const cloudIndex = buildCloudKdIndex(
+            cloud.xs,
+            cloud.ys,
+            cloud.zs
+          );
+
+          setStatus(
+            `Matching ${grid.length.toLocaleString()} grid positions...`
+          );
+
+          await new Promise(resolve => setTimeout(resolve, 0));
+
+          for (const reference of grid) {
+            const i = nearestCloudXYZ(
+              reference.x,
+              reference.y,
+              reference.z,
+              cloud.xs,
+              cloud.ys,
+              cloud.zs,
+              cloudIndex,
+              options.spacing,
+              options.mode
+            );
+
+            if (i >= 0) {
+              points.push({
+                x: cloud.xs[i],
+                y: cloud.ys[i],
+                z: cloud.zs[i]
+              });
+            }
+          }
+
+          if (!points.length) {
+            throw new Error(
+              "No valid points survived grid matching."
+            );
+          }
+        }
+
+        loadedPoints = points;
+        processedFileName = options.file.name;
+
+        if (options.mode === "alignment") {
+          const segments = [];
+
+          for (let i = 0; i < alignmentPoints.length - 1; i++) {
+            segments.push({
+              a: alignmentPoints[i],
+              b: alignmentPoints[i + 1]
+            });
+          }
+
+          toleranceParams = {
+            type: "multiSegment",
+            segments,
+            assignments: processWallTolerances(
+              loadedPoints,
+              segments,
+              1.0
+            )
+          };
+        } else {
+          toleranceParams = {
+            type: "elevation",
+            Z: options.targetZ,
+            surfaceType: options.surfaceType
+          };
+        }
+
+        updateVoxelTable();
+
+        let withinLimit = 0;
+        let outsideLimit = 0;
+        let unassigned = 0;
+
+        for (const point of loadedPoints) {
+          const tolerance = computeToleranceRow(point);
+
+          if (
+            !tolerance ||
+            !Number.isFinite(tolerance.dTolerance)
+          ) {
+            unassigned++;
+            continue;
+          }
+
+          if (
+            Math.abs(tolerance.dTolerance * 1000) <=
+            options.toleranceLimit
+          ) {
+            withinLimit++;
+          } else {
+            outsideLimit++;
+          }
+        }
+
+        const retainedLabel = options.processAll
+          ? "Points retained"
+          : "Points retained after Z filter";
+
+        const keptLabel = options.processAll
+          ? "Points kept"
+          : "Grid points kept";
+
+        setStatus(
+          "PROCESS COMPLETE\n" +
+          `Raw valid points scanned: ${
+            cloud.rawPointIndex.toLocaleString()
+          }\n` +
+          `${retainedLabel}: ${
+            cloud.keptByZ.toLocaleString()
+          }\n` +
+          `${keptLabel}: ${
+            loadedPoints.length.toLocaleString()
+          }\n` +
+          `Within ±${options.toleranceLimit} mm: ${
+            withinLimit.toLocaleString()
+          }\n` +
+          `Outside ±${options.toleranceLimit} mm: ${
+            outsideLimit.toLocaleString()
+          }\n` +
+          `Without assigned tolerance: ${
+            unassigned.toLocaleString()
+          }`
+        );
+      } catch (error) {
+        clearResults();
+
+        setStatus(
+          `ERROR: ${error.message || String(error)}`,
+          true
+        );
+      } finally {
+        setProcessing(false);
+      }
+    });
+  </script>
 </body>
 </html>
